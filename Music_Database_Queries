@@ -146,3 +146,25 @@ VALUES ('Sawah',5,1000,1000,5,4);
 
 INSERT INTO Track (title,rating,len,count,album_id,genre_id) 
 VALUES ('El Helwa',5,1000,1000,5,4);
+
+
+/* JOIN Queries */
+/*  all the data joined up sorted in ascending order by the album title */
+SELECT Track.title, Artist.name, Album.title, Genre.name
+FROM Track JOIN Genre JOIN Album JOIN Artist ON
+Track.genre_id = Genre.genre_id AND Track.album_id = Album.album_id AND Album.artist_id = Artist.artist_id
+ORDER BY Genre.name ASC;
+
+/* all of the genres for a particular artist */
+SELECT DISTINCT Artist.name, Genre.name 
+FROM Artist JOIN Genre JOIN Album JOIN Track
+ON Track.genre_id = Genre.genre_id AND Track.album_id = Album.album_id AND Album.artist_id = Artist.artist_id
+WHERE Artist.name = 'Wegz'
+
+
+/* Come up with a query using GROUP BY to show the number of tracks an Artist has in each Genre */
+SELECT Artist.name, Genre.name, COUNT(Track.genre_id)
+FROM Artist JOIN Genre JOIN Track JOIN Album
+ON Track.genre_id = Genre.genre_id AND Track.album_id = Album.album_id AND Album.artist_id = Artist.artist_id
+GROUP BY Genre.name
+ORDER BY Artist.name, COUNT(Track.genre_id) DESC
